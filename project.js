@@ -116,6 +116,28 @@ const printRows = (rows) => {
         }
         console.log(rowString)
     }
+};
+
+const getWinnings = (rows, bet, lines) => {
+    let winnings = 0;
+
+    for (let row = 0; row < lines; row++){
+        const symbols = rows[row];
+        let allSame = true; // means won
+
+        for (const symbol of symbols){ //loops through all symbols
+            if (symbol != symbols[0]){ 
+                allSame = false; //means didn't win
+                break; //exits for loop
+            }
+        }
+
+        if(allSame){
+            winnings += bet * SYMBOL_VALUES[symbols[0]]
+        }
+    }
+
+    return winnings;
 }
 
 let balance = deposit(); //let allows adjustment of variables
@@ -124,3 +146,5 @@ const bet = getBet(balance, numberOfLines);
 const reels = spin();
 const rows = transpose(reels);
 printRows(rows);
+const winnings = getWinnings(rows, bet, numberOfLines)
+console.log("You won, €" + winnings.toString())
